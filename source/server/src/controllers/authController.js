@@ -3,7 +3,6 @@ var bcrypt = require('bcryptjs');
 const sequelize = require('../../sequelize');
 const errors = require('../utils/Errors');
 const userRepository = require('../repositories/userRepository');
-const tenantRepository = require('../repositories/tenantRepository');
 const Promise = require('promise');
 
 module.exports = {
@@ -23,16 +22,12 @@ module.exports = {
     },
     register: function (req, res, next) {
         var data = Object.assign({}, req.body);
-        tenantRepository.createTenant(data)
-        .then(function(response){
-            return userRepository.createUser(data)
+        userRepository.createUser(data)
             .then(function(user){
                 var token = jwt.sign({ userName: user.userName,userId: user.userId }, process.env.JYMMAANN_SECRET_KEY, {
                               expiresIn: 86400 // expires in 24 hours
                             });
                 res.status(200).send({ auth: true, token: token });
-            });
-        })
-
+        });
     },
 };

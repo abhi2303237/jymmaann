@@ -3,7 +3,6 @@ var bcrypt = require('bcryptjs');
 const sequelize = require('../../sequelize');
 const errors = require('../utils/Errors');
 const userRepository = require('../repositories/userRepository');
-const tenantRepository = require('../repositories/tenantRepository');
 const Promise = require('promise');
 
 module.exports = {
